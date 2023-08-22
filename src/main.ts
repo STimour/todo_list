@@ -1,24 +1,27 @@
 let listItems = []
-
+let taskIndex = 0
 const form = document.querySelector(".form") as HTMLFormElement
 const formInput = form?.querySelector(".form__input") as HTMLInputElement
 const btnSave = document.querySelector("#btn__save") as HTMLButtonElement
 const ulToDoList = document.querySelector(".toDoList") as HTMLUListElement
-const liToDoList = document.createElement("li") as HTMLLIElement
+
 
 function addTask() {
   if (formInput) {
     const taskAdded = formInput.value
-    const localList: string[] = JSON.parse(localStorage.getItem("todo") || "[]") || []
+    //const localList: string[] = JSON.parse(localStorage.getItem("todo") || "[]") || []
 
-    localList.push(taskAdded)
-    localStorage.setItem("todo", JSON.stringify(localList))
-
+    //localList.push(taskAdded)
+    //localStorage.setItem("todo", JSON.stringify(localList))
+    localStorage.setItem(`${taskIndex+=1}`, JSON.stringify(taskAdded))
+    
     const liToDoList = document.createElement("li")
       liToDoList.setAttribute("class", "li__toDoList")
-      liToDoList.innerText = taskAdded
+    const itemToDoList = document.createElement("p") 
+      itemToDoList.innerText = taskAdded
 
     ulToDoList?.appendChild(liToDoList)
+    liToDoList.appendChild(itemToDoList)
     formInput.value = ""
 
     liToDoList.addEventListener("click", () => {
@@ -29,10 +32,24 @@ function addTask() {
       }
     })
 
-    const removeTask = document.createElement("img") as HTMLImageElement
-      removeTask.setAttribute("src", "/src/icon/corbeil-16x16.png")
-    
-    liToDoList.appendChild(removeTask)
+    const removeButton = document.createElement("button") as HTMLButtonElement
+    removeButton.setAttribute("class", "btn")
+
+    removeButton.addEventListener("click", () => {
+      liToDoList.remove()
+
+      const arrayFromStorage = Array.from(ulToDoList.children)
+      
+      const indexTaskToRemove = arrayFromStorage.indexOf(liToDoList)
+
+      console.log(indexTaskToRemove);
+      
+      if(indexTaskToRemove !== -1 ){
+        const localStorageKey = `${indexTaskToRemove + 1}`
+        localStorage.removeItem(localStorageKey)
+      }
+    })
+  liToDoList.appendChild(removeButton)
   }  
 }
 
@@ -48,18 +65,20 @@ btnSave?.addEventListener("click", () => {
 
 
 
-
+let elementSup = null
 
 function init(){
-  const fromStorage = localStorage.getItem("todo")
+  const fromStorage = localStorage.getItem(taskAdded)
   if(fromStorage){
-      const tasks = JSON.parse(fromStorage);
+      const tasks: string[] = JSON.parse(fromStorage);
       tasks.forEach(task => {
       const liToDoList = document.createElement("li") as HTMLLIElement
+      const itemToDoList = document.createElement("p") as HTMLParagraphElement
       liToDoList.setAttribute("class", "li__toDoList")
-      liToDoList.innerHTML = task
+      itemToDoList.innerHTML = task
       ulToDoList.appendChild(liToDoList)
-    
+      liToDoList.appendChild(itemToDoList)
+
       liToDoList.addEventListener("click", () => {
         if (!liToDoList.classList.contains("done") && !liToDoList.classList.contains("deleted")) {
           liToDoList.classList.add("done");
@@ -68,10 +87,19 @@ function init(){
         }
       })
   
-      const removeTask = document.createElement("img") as HTMLImageElement
-        removeTask.setAttribute("src", "/src/icon/corbeil-16x16.png")
-      
-      liToDoList.appendChild(removeTask)
+      const removeButton = document.createElement("button") as HTMLButtonElement
+        removeButton.setAttribute("class", "btn")
+
+        removeButton.addEventListener("click", () => {
+          liToDoList.remove()
+          let taskToRemove = itemToDoList.textContent
+          console.log(taskToRemove);
+          
+          if(taskToRemove !== null){
+            localStorage.removeItem(taskToRemove)
+          }
+        })
+      liToDoList.appendChild(removeButton)
      
     })
     

@@ -125,16 +125,22 @@ body {
   list-style-type: none;
 }
 
-
+.btn{
+  background: url("/src/icon/corbeil-16x16.png");
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
 .done{
   text-decoration:line-through;
   border-radius: 20% 5% 20% 5%/5% 20% 2% 20%;
   background-color: #3e0542;
-  color: white;
+  color: gray;
 }
 
-
 .li__toDoList{
-  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   
 }
