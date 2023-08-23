@@ -34,14 +34,16 @@ function addTask() {
 
     const removeButton = document.createElement("button") as HTMLButtonElement
     removeButton.setAttribute("class", "btn")
-    // let taskIndex = 0
+      // let taskIndex = 0
     removeButton.addEventListener("click", () => {
       liToDoList.remove()
-     // const taskToRemove = liToDoList.getAttribute("data-index")
-     // if (taskToRemove !== null) {
-     //   taskIndex = parseInt(taskToRemove, localList.length);
-     // }
-     // console.log(taskIndex);
+      const taskToRemove = liToDoList.getAttribute("data-index");
+
+      if (taskToRemove !== null) {
+        const taskIndex = parseInt(taskToRemove);
+        localList.splice(taskIndex, 1); // Supprimez la tâche du tableau localList
+        localStorage.setItem("todo", JSON.stringify(localList)); // Mettez à jour le stockage local
+      }
      
      
     })
@@ -61,7 +63,7 @@ btnSave?.addEventListener("click", () => {
 
 
 
-let elementSup = null
+
 
 function init(){
   const fromStorage = localStorage.getItem("todo")
@@ -71,6 +73,7 @@ function init(){
       const liToDoList = document.createElement("li") as HTMLLIElement
       const itemToDoList = document.createElement("p") as HTMLParagraphElement
       liToDoList.setAttribute("class", "li__toDoList")
+      liToDoList.setAttribute("data-index", `${indexItem++}`)
       itemToDoList.innerHTML = task
       ulToDoList.appendChild(liToDoList)
       liToDoList.appendChild(itemToDoList)
@@ -87,13 +90,14 @@ function init(){
         removeButton.setAttribute("class", "btn")
 
         removeButton.addEventListener("click", () => {
-          liToDoList.remove()
-         // let taskToRemove = itemToDoList.textContent
-         // console.log(taskToRemove);
-         // 
-         // if(taskToRemove !== null){
-         //   localStorage.removeItem(taskToRemove)
-         // }
+        liToDoList.remove()
+        const taskToRemove = liToDoList.getAttribute("data-index");
+      
+        if (taskToRemove !== null) {
+        const taskIndex = parseInt(taskToRemove);
+        tasks.splice(taskIndex, 1); // Supprimez la tâche du tableau tasks
+        localStorage.setItem("todo", JSON.stringify(tasks)); // Mettez à jour le stockage local
+      }
         })
       liToDoList.appendChild(removeButton)
      
