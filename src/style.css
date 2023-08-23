@@ -121,15 +121,15 @@ body {
   outline: 0;
 }
 .toDoList {
-  text-align: left;
+  text-align: center;
   list-style-type: none;
 }
 
 .btn{
-  background: url("/src/icon/corbeil-16x16.png");
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
+  background: url("/src/icon/corbeil-16x16.png") no-repeat center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px
 }
 .done{
   text-decoration:line-through;
@@ -142,5 +142,5 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  
+  justify-content: space-between;
 }

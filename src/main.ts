@@ -1,5 +1,5 @@
-let listItems = []
-let taskIndex = 0
+let indexItem = 0
+
 const form = document.querySelector(".form") as HTMLFormElement
 const formInput = form?.querySelector(".form__input") as HTMLInputElement
 const btnSave = document.querySelector("#btn__save") as HTMLButtonElement
@@ -9,14 +9,14 @@ const ulToDoList = document.querySelector(".toDoList") as HTMLUListElement
 function addTask() {
   if (formInput) {
     const taskAdded = formInput.value
-    //const localList: string[] = JSON.parse(localStorage.getItem("todo") || "[]") || []
+    const localList: string[] = JSON.parse(localStorage.getItem("todo") || "[]") || []
 
-    //localList.push(taskAdded)
-    //localStorage.setItem("todo", JSON.stringify(localList))
-    localStorage.setItem(`${taskIndex+=1}`, JSON.stringify(taskAdded))
+    localList.push(taskAdded)
+    localStorage.setItem("todo", JSON.stringify(localList))
     
     const liToDoList = document.createElement("li")
       liToDoList.setAttribute("class", "li__toDoList")
+      liToDoList.setAttribute("data-index", `${indexItem++}`)
     const itemToDoList = document.createElement("p") 
       itemToDoList.innerText = taskAdded
 
@@ -34,20 +34,16 @@ function addTask() {
 
     const removeButton = document.createElement("button") as HTMLButtonElement
     removeButton.setAttribute("class", "btn")
-
+    // let taskIndex = 0
     removeButton.addEventListener("click", () => {
       liToDoList.remove()
-
-      const arrayFromStorage = Array.from(ulToDoList.children)
-      
-      const indexTaskToRemove = arrayFromStorage.indexOf(liToDoList)
-
-      console.log(indexTaskToRemove);
-      
-      if(indexTaskToRemove !== -1 ){
-        const localStorageKey = `${indexTaskToRemove + 1}`
-        localStorage.removeItem(localStorageKey)
-      }
+     // const taskToRemove = liToDoList.getAttribute("data-index")
+     // if (taskToRemove !== null) {
+     //   taskIndex = parseInt(taskToRemove, localList.length);
+     // }
+     // console.log(taskIndex);
+     
+     
     })
   liToDoList.appendChild(removeButton)
   }  
@@ -68,7 +64,7 @@ btnSave?.addEventListener("click", () => {
 let elementSup = null
 
 function init(){
-  const fromStorage = localStorage.getItem(taskAdded)
+  const fromStorage = localStorage.getItem("todo")
   if(fromStorage){
       const tasks: string[] = JSON.parse(fromStorage);
       tasks.forEach(task => {
@@ -92,12 +88,12 @@ function init(){
 
         removeButton.addEventListener("click", () => {
           liToDoList.remove()
-          let taskToRemove = itemToDoList.textContent
-          console.log(taskToRemove);
-          
-          if(taskToRemove !== null){
-            localStorage.removeItem(taskToRemove)
-          }
+         // let taskToRemove = itemToDoList.textContent
+         // console.log(taskToRemove);
+         // 
+         // if(taskToRemove !== null){
+         //   localStorage.removeItem(taskToRemove)
+         // }
         })
       liToDoList.appendChild(removeButton)
      
