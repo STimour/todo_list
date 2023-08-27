@@ -24,11 +24,11 @@ function addTask() {
     liToDoList.appendChild(itemToDoList)
     formInput.value = ""
 
-    liToDoList.addEventListener("click", () => {
-      if (!liToDoList.classList.contains("done") && !liToDoList.classList.contains("deleted")) {
-        liToDoList.classList.add("done");
+    itemToDoList.addEventListener("click", () => {
+      if (!itemToDoList.classList.contains("done") && !itemToDoList.classList.contains("deleted")) {
+        itemToDoList.classList.add("done");
       } else {
-        liToDoList.classList.remove("done");
+        itemToDoList.classList.remove("done");
       }
     })
 
